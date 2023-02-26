@@ -34,6 +34,7 @@ const checkDir = () => {
 // function to write the team.html file
 
 const createHtml = () => {
+
     const teamFile = render(employees);
     checkDir();
     fs.writeFileSync(outputPath, teamFile);
@@ -85,7 +86,7 @@ const confirmEmail = async (input) => {
                     type: 'input',
                     name: 'employeeName',
                     message: 'Employee name',
-                    confirm: confirmInput,
+                    validate: confirmInput,
                 },
                 { // array of strings that specifies the available options that the user can select from.
 
@@ -100,34 +101,34 @@ const confirmEmail = async (input) => {
                     type: 'number',
                     name: 'employeeID',
                     message: 'Employee id number',
-                    confirm: confirmNum,
+                    validate: confirmNum,
                 },
                 {
                     type: 'input',
                     name: 'employeeEmail',
                     message: 'Employee email',
-                    confirm: confirmEmail,
+                    validate: confirmEmail,
                 },
                 { // object for question prompt. The prompt will only be displayed if the user previous answer to a question with the name 'position' is equal to the string 'manager'
                     type: 'number',
-                    name: 'managerOfficeID',
+                    name: 'managerOfficeId',
                     message: 'Manager Office Number',
                     when: (answers) => answers.position === 'Manager',
-                    confirm: confirmNum,
+                    validate: confirmNum,
                 },
                 {
                     type: 'input',
                     name: 'githubUsername',
                     message: 'Github Username',
                     when: (answers) => answers.position ==='Engineer',
-                    confirm: confirmInput,
+                    validate: confirmInput,
                 },
                 { //
                     type: 'input',
                     name: 'internSchool',
                     message: "Intern's School",
                     when: (answers) => answers.position === 'Intern',
-                    confirm: confirmInput,
+                    validate: confirmInput,
                 },
                 {
                     type: 'confirm',
@@ -141,7 +142,7 @@ const confirmEmail = async (input) => {
             .then((answers) => {
                 let addedEmployee;
                 if (answers.position === 'Manager') {
-                    addedEmployee = new Manager(answers.employeeName, answers.employeeID, answers.employeeEmail, answers.managerOffice);
+                    addedEmployee = new Manager(answers.employeeName, answers.employeeID, answers.employeeEmail, answers.managerOfficeId);
                 };
                 // if the user selects intern, the functiopn creates a new intern object and assigns it to 'added employee' passing in the user's input for employeeName, employeeID, employeeEmail and internSchool.
                 if (answers.position === 'Intern') {
@@ -156,9 +157,9 @@ const confirmEmail = async (input) => {
                 // add employee object to team array
                 // if statement that checks the user's answers. if the user answers true, the function newTeam() will be called to prompt the user to add another employee. If the user answers false, the function makeHtml() will be called to generate an HTML file that contains information about all the employees in the employees array.
 
-                employees.push(addedEmployee); 
-
-                if (answers.anotherEmployee) {
+                employees.push(addedEmployee);
+                
+                if (answers.additionalEmployee==true) {
                      newTeam();
                 } else {
                      createHtml();
@@ -166,18 +167,18 @@ const confirmEmail = async (input) => {
             });
         
             
-                // this function starts the prompt
-
-                const init = () => {
-                    console.log('Please enter the appropriate response for each prompt');
-                    newTeam();
-
-                };
-
-                // the init function
-                init();
-
             }
+
+              // this function starts the prompt
+
+              const init = () => {
+                console.log('Please enter the appropriate response for each prompt');
+                newTeam();
+
+            };
+
+            // the init function
+            init();
 
 
 

@@ -6,8 +6,6 @@
   "scripts": { 
     "test": "jest",
     "start": "node app.js"
-    
-    
   },
 
  
